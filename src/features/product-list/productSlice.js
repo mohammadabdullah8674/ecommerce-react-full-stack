@@ -4,6 +4,7 @@ import { fetchAllProducts,fetchProductsByFilters } from './productAPI';
 const initialState = {
   products: [],
   status: 'idle',
+  totalItems : 0
 };
 
 
@@ -48,7 +49,9 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProductsByFiltersAsync.fulfilled, (state, action) => {
         state.status = 'idle';
+        console.log(action)
         state.products = action.payload;
+        state.totalItemson.payload.totalItems;
       });
   },
 });
@@ -56,5 +59,6 @@ export const productSlice = createSlice({
 export const { increment } = productSlice.actions;
 
 export const selectAllProducts = (state) => state.product.products;
+export const selectTotalItems = (state) => state.product.totalItems;
 
 export default productSlice.reducer;

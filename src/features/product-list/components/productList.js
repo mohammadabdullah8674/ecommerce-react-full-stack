@@ -1,10 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProductsAsync, fetchProductsByFiltersAsync, selectAllProducts } from '../productSlice';
+import { 
+  fetchAllProductsAsync, 
+  fetchProductsByFiltersAsync, 
+  selectAllProducts, 
+  selectTotalItems 
+} from '../productSlice';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
+import { ITEM_PER_PAGE } from "../../../app/constants"
 
 import {
   ChevronDownIcon,
@@ -376,27 +382,45 @@ export default function ProductList() {
   const dispatch = useDispatch();
 
   const products = useSelector(selectAllProducts);
+  const totalItems = useSelector(selectTotalItems);
 
 
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState([]);
+  const [isfilterChecked, setIsFilterChecked] = useState(false);
+  const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
 
   const handleFilter = (e, section, option) => {
-    const newFilter = { ...filter, [section.id]: option.value };
+    console.log(section, option)
+    // setIsFilterChecked(!isfilterChecked)
+    // console.log(isfilterChecked)
+    // const newFilter = { ...filter, [section.id]: option.value };
+    const newFilter = [...filter, { [section.id]: option.value }];
+
     setFilter(newFilter);
-    dispatch(fetchProductsByFiltersAsync(newFilter));
-    console.log(section.id, option.value);
+    console.log(newFilter)
+
+
+
   };
 
-  const handleSort = (e, option) => {
-    const newFilter = { ...filter, _sort: option.sort, _order: option.order };
-    setFilter(newFilter);
-    dispatch(fetchProductsByFiltersAsync(newFilter));
+  const handleSort = (option) => {
+    setSort({ _sort: option.sort, _order: option.order })
+    console.log(sort)
+    // const newFilter = { ...filter, _sort: option.sort, _order: option.order };
+    // setFilter(newFilter);
+  };
+
+  const handlePage = (page) => {
+    setPage(page)
+    console.log({page})
   };
 
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, [dispatch]);
+    dispatch(fetchProductsByFiltersAsync({ sort, filter }));
+    // dispatch(fetchAllProductsAsync());
+  }, [dispatch, sort, filter]);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -404,8 +428,8 @@ export default function ProductList() {
     <div className="bg-white">
       <div>
 
-        <MobileFilter 
-          mobileFiltersOpen={mobileFiltersOpen} 
+        <MobileFilter
+          mobileFiltersOpen={mobileFiltersOpen}
           setMobileFiltersOpen={setMobileFiltersOpen}
           handleFilter={handleFilter}>
         </MobileFilter>
@@ -444,7 +468,7 @@ export default function ProductList() {
                           {({ active }) => (
                             <p
 
-                              onClick={e => handleSort(e, option)}
+                              onClick={() => handleSort(option)}
                               className={classNames(
                                 option.current
                                   ? 'font-medium text-gray-900'
@@ -488,7 +512,7 @@ export default function ProductList() {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
-              <DesktopFilter handleFilter={handleFilter}></DesktopFilter>
+              <DesktopFilter handleFilter={handleFilter} isfilterChecked={isfilterChecked}></DesktopFilter>
 
               {/* Product grid */}
               <ProductGrid products={products} ></ProductGrid>
@@ -497,7 +521,11 @@ export default function ProductList() {
           </section>
 
           {/* Pagination section */}
-          <Pagination></Pagination>
+          <Pagination
+          handlePage={handlePage}
+          page={page}
+          setPage={setPage}
+          ></Pagination>
 
         </main>
       </div>
@@ -506,7 +534,7 @@ export default function ProductList() {
 }
 
 
-function MobileFilter({mobileFiltersOpen, setMobileFiltersOpen, handleFilter}) {
+function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen, handleFilter }) {
 
   return (
     <>
@@ -628,7 +656,7 @@ function MobileFilter({mobileFiltersOpen, setMobileFiltersOpen, handleFilter}) {
   )
 }
 
-function DesktopFilter({handleFilter}) {
+function DesktopFilter({ handleFilter, isfilterChecked }) {
 
   return (
 
@@ -677,7 +705,7 @@ function DesktopFilter({handleFilter}) {
                           name={`${section.id}[]`}
                           defaultValue={option.value}
                           type="checkbox"
-                          defaultChecked={option.checked}
+                          defaultChecked={isfilterChecked}
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
                         <label
@@ -700,7 +728,7 @@ function DesktopFilter({handleFilter}) {
   )
 }
 
-function ProductGrid({products}) {
+function ProductGrid({ products }) {
 
   return (
     <>
@@ -761,25 +789,24 @@ function ProductGrid({products}) {
   )
 }
 
-
-function Pagination() {
+function Pagination({page, setPage, handlePage}) {
 
   return (
     <>
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
-          <a
-            href="#"
+          <div
+            
             className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Previous
-          </a>
-          <a
-            href="#"
+          </div>
+          <div
+            
             className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Next
-          </a>
+          </div>
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>

@@ -11,14 +11,22 @@ export function fetchAllProducts() {
 
 
 
-export function fetchProductsByFilters(filter) {
+export function fetchProductsByFilters({filter, sort}) {
   // filter = {"category":"smartphone"}
   // TODO : on server we will support multi values
   let queryString = '';
-  for(let key in filter){
-    queryString += `${key}=${filter[key]}&`
+  
+  filter.map(item => {
+    for(let key in item){
+        queryString += `${key}=${item[key]}&`
+    } 
+})
+  
+  for(let key in sort ){
+    
+    queryString+=`${key}=${sort[key]}&`
   }
-
+  console.log(queryString)
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here
     const response = await fetch('http://localhost:8080/products?'+queryString) 
