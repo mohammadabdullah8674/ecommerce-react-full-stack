@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {
-    increment,
-    incrementAsync,
-    selectCount,
-} from '../authSlice';
+import { useForm } from "react-hook-form";
+
+
 
 export default function Login() {
-    const count = useSelector(selectCount);
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
     const dispatch = useDispatch();
 
 
     return (
 
         <>
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <img style={{height : "132px"}}
+                    <img style={{ height: "132px" }}
                         className="mx-auto w-auto"
                         src="https://iili.io/HpppNDP.png"
                         alt="apna shoppingapp"
@@ -86,7 +86,7 @@ export default function Login() {
                     </p>
                 </div>
             </div>
-        
+
         </>
     );
 }

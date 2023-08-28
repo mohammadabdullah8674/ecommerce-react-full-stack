@@ -26,6 +26,12 @@ const sizes = [
   { name: '2XL', inStock: true },
   { name: '3XL', inStock: true },]
 
+  const highlights = [
+    "Hand cut and sewn locally",
+    "Dyed with our proprietary colors",
+    "Pre-washed & pre-shrunk",
+    "Ultra-soft 100% cotton"
+]
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -34,19 +40,26 @@ export default function ProductDetail() {
 
   const [selectedColor, setSelectedColor] = useState(colors[0])
   const [selectedSize, setSelectedSize] = useState(sizes[2])
-  
+
+  const product = useSelector(selectProductById)
   const param = useParams()
   console.log(param)
-  const product = useSelector(selectProductById)
   const dispatch = useDispatch()
   console.log(product)
-  
+
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(param.id))
-  },[dispatch,param.id])
+  }, [dispatch, param.id])
 
   return (
+    // <div>
+    //   <p>
+    //     Page changes
+    //   </p>
+    //   <h1>{product.title}</h1>
+    // </div>
+
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -154,7 +167,7 @@ export default function ProductDetail() {
                 <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
                   <div className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
+                    {colors.map((color) => (
                       <RadioGroup.Option
                         key={color.name}
                         value={color}
@@ -195,7 +208,7 @@ export default function ProductDetail() {
                 <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                   <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                    {product.sizes.map((size) => (
+                    {sizes.map((size) => (
                       <RadioGroup.Option
                         key={size.name}
                         value={size}
@@ -260,7 +273,7 @@ export default function ProductDetail() {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">{product.title}</p>
               </div>
             </div>
 
@@ -269,7 +282,7 @@ export default function ProductDetail() {
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
+                  {highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
                       <span className="text-gray-600">{highlight}</span>
                     </li>
