@@ -7,6 +7,7 @@ import { deleteItemFromCartAsync, selectItems, updateCartAsync } from '../featur
 import { useForm } from 'react-hook-form';
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
 import { createOrderAsync, selectCurrentOrder } from '../features/order/OrderSlice';
+import { selectUserInfo } from '../features/user/userSlice';
 
 const products = [
   {
@@ -59,7 +60,7 @@ function Checkout() {
 
 
   const cartItems = useSelector(selectItems);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder)
   const dispatch = useDispatch()
   const totalAmount = cartItems.reduce((amount, item) => item.price * item.quantity + amount, 0)
@@ -77,20 +78,18 @@ function Checkout() {
 
   const handleAddress = (e) => {
     setSelectedAddress(user.address[e.target.value])
-    console.log(e.target.value)
   }
   const handlePayment = (e) => {
     setPaymentMethod(e.target.value)
-    console.log(e.target.value)
   }
 
   function handleOrder(){
     if (selectedAddress && paymentMethod) {
       const order = {
+        userId : user.id,
         cartItems,
         totalAmount,
         totalItems,
-        user,
         paymentMethod,
         selectedAddress,
         status : "pending"
