@@ -1,52 +1,48 @@
-# Getting Started with Create React App and Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+![logo](https://iili.io/HpppNDP.png)
 
-## Available Scripts
+# Ecommerce application using MERN Stack
+Currently I am working on this project for learning Full Stack Web Develeopment.
+Sharing some of screenshots here......
 
-In the project directory, you can run:
+# Screenshots
+## Home Page
+![Hy4SSMg.png](https://iili.io/Hy4SSMg.png)
+## Login Page
+![Hy4SN9V.png](https://iili.io/Hy4SN9V.png)
+## Signup Page
+![Hy4Shcx.png](https://iili.io/Hy4Shcx.png)
+## Product Details Page
+![Hy4S8oF.png](https://iili.io/Hy4S8oF.png)
+## Cart Page
+![Hy4Skt1.png](https://iili.io/Hy4Skt1.png)
+## Checkout Page
+![Hy4SewP.png](https://iili.io/Hy4SewP.png)
+## Order Success Page
+![Hy4Sj8Q.png](https://iili.io/Hy4Sj8Q.png)
+## Order Page
+![Hy4SOAB.png](https://iili.io/Hy4SOAB.png)
+## ---------------------------------------------------
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+#  Technologies using ----
+- React 18 with Tailwind CSS
+- Redux Toolkit with Async Thunk
+- React Router v6
+- JSON-server for front-end testing
+- MongoDB for Database
+- Mongoose v7 as ODM
+- REST API using Express
+- Authentication using Passport JS
+- API Authentication using Passport JWT
+- MongoDB Atlas cloud database
+- Vercel Server deployment
+- Email using Nodemailer - using GMail SMTP system
+- Payments using Stripe - PaymentIntent based custom flow
 
 
 
-git remote add origin https://github.com/mohammadabdullah8674/ecommerce-react-full-stack.git
-git branch -M main
-git push -u origin main
+## 🔗 Connect with me
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://mohd-abdullah-personal-portfolio.vercel.app/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/mohd-abdullah-zubair)
+[![twitter](https://img.shields.io/badge/instagram-1DA1F2?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/i_am_abdullahzubair)
+
