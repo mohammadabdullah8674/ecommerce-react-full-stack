@@ -1,17 +1,29 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo, updateUserAsync } from '../userSlice';
 
-function EditProfile({ editMode, setEditMode }) {
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+function EditProfile({ editMode, setEditMode,indexValue, handleIndex,}) {
+  const { register, setValue, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
   const user = useSelector(selectUserInfo)
   const dispatch = useDispatch()
-  console.log(user)
+  // console.log(setValueIndex)
 
-
+  useEffect(() => {
+    if (indexValue!=null && indexValue >= 0) {
+      console.log(indexValue)
+      const info = user.address[indexValue]
+      setValue('fullName', info.fullName)
+      setValue('email', info.email)
+      setValue('phone', info.phone)
+      setValue('street', info.street)
+      setValue('city', info.city)
+      setValue('state', info.state)
+      setValue('postalcode', info.postalcode)
+    }
+  }, [])
   return (
     <div className='flex w-screen justify-center items-center px-5' >
 
@@ -19,16 +31,25 @@ function EditProfile({ editMode, setEditMode }) {
         <div className="lg:col-span-3">
           <form
             onSubmit={handleSubmit(data => {
-              dispatch(updateUserAsync({ ...user, address: [...user.address, data] }))
+              if (indexValue!=null && indexValue >= 0) {
+                console.log(indexValue)
+                const newUser = { ...user, address: [...user.address] }
+                newUser.address[indexValue] = data
+                dispatch(updateUserAsync(newUser))
+                handleIndex(null)
+                console.log(indexValue,  "Hiiiiiii")
+              } else {
+                dispatch(updateUserAsync({ ...user, address: [...user.address, data] }))
+              }
               reset()
               setEditMode(false)
               console.log(user)
             })}
             className="bg-white px-10 py-12 mt-12">
             <div className="space-y-12">
-                <h2 className="text-2xl font-semibold leading-7 text-gray-900">
-                  Update Your Profile
-                </h2>
+              <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+                Update Your Profile
+              </h2>
               <div className="border-b border-t border-gray-900/10 pb-12">
 
 
@@ -259,7 +280,12 @@ function EditProfile({ editMode, setEditMode }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setEditMode(false)}
+                  onClick={() => { 
+                    if(indexValue!=null && indexValue >= 0) {
+                      handleIndex(null)
+                    }
+                    setEditMode(false)
+                  }}
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Back
@@ -268,7 +294,8 @@ function EditProfile({ editMode, setEditMode }) {
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Update
+                  {(indexValue!=null && indexValue >= 0) ? "Update" : "Add Details"}
+                  {/* Update */}
                 </button>
               </div>
             </div>

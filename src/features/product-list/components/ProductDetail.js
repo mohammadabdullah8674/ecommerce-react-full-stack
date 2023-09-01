@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductByIdAsync, selectProductById, selectStatus } from '../productSlice'
 import { useParams } from 'react-router-dom'
 import { addToCartAsync } from '../../cart/cartSlice'
-import { selectLoggedInUser } from '../../auth/authSlice'
+import { selectUserInfo } from '../../user/userSlice'
 
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
@@ -45,7 +45,7 @@ export default function ProductDetail() {
 
   const status = useSelector(selectStatus)
   const product = useSelector(selectProductById)
-  const user = useSelector(selectLoggedInUser)
+  const user = useSelector(selectUserInfo)
   const param = useParams()
   console.log(param)
   const dispatch = useDispatch()

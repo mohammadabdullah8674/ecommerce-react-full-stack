@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { selectUserInfo } from '../userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { selectUserInfo, updateUserAsync } from '../userSlice'
 import EditProfile from './EditProfile';
 
 function Profile() {
@@ -9,22 +9,40 @@ function Profile() {
     const profileImage = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
 
     const [editMode, setEditMode] = useState(false);
+    const [indexValue, setIndexValue] = useState(null);   // yhan main (-1) leke karta to acchha hota 
 
     const user = useSelector(selectUserInfo)
-    let name = "Hello Mr.X"
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    let name = "New User"
     let phone = 9999999999
     const email = user.email
     const address = user.address
-    if(address.length) {
+    if (address.length) {
         name = user.address[0].fullName
         phone = user.address[0].phone
     }
 
+    function handleEdit(e,index){
+        setIndexValue(index)
+        setEditMode(true)
+    }
+
+    function handleRemove(e,index){
+        const newUser = { ...user, address: [...user.address] }
+        newUser.address.splice(index, 1)
+        dispatch(updateUserAsync(newUser))
+    }
+    function handleIndex(index){
+        setIndexValue(index)
+    }
 
     return (
         <>
             {editMode &&
                 <EditProfile
+                    indexValue = {indexValue}
+                    handleIndex={handleIndex}
                     editMode={editMode}
                     setEditMode={setEditMode} >
                 </EditProfile>
@@ -41,11 +59,11 @@ function Profile() {
                             <span className="text-sm text-gray-500 dark:text-gray-400">{phone}</span>
                             <span className="text-sm text-gray-500 dark:text-gray-400">{email}</span>
                             <hr class="h-px w-full my-4 bg-gray-300 border-0 dark:bg-gray-700"></hr>
-                           {
-                               address.length>0 &&  <h5 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Your saved Addresses</h5>
-                           }
+                            {
+                                address.length > 0 && <h5 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Your saved Addresses</h5>
+                            }
 
-                            <ul role="list">
+                            {/* <ul role="list">
                                 {address.map((address, index) => (
                                     <li
                                         key={index}
@@ -74,7 +92,49 @@ function Profile() {
                                         </div>
                                     </li>
                                 ))}
-                            </ul>
+                            </ul> */}
+
+                            {address.map((address, index) => (
+                                <div className="flex justify-between mb-1 gap-x-6 px-5 py-2 border-solid border-2 border-gray-200">
+                                    <div className="flex gap-x-4">
+                                        <div className="min-w-0 flex-auto">
+                                            <p className="text-sm font-semibold leading-6 text-gray-900">
+                                                {address.fullName}
+                                            </p>
+                                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                                {address.street}
+                                            </p>
+                                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                                {address.postalCode}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="hidden sm:flex sm:flex-col sm:items-end">
+                                        <p className="text-sm leading-6 text-gray-900">
+                                            Phone: {address.phone}
+                                        </p>
+                                        <p className="text-sm leading-6 text-gray-500">
+                                            {address.city}
+                                        </p>
+                                    </div>
+                                    <div className=" flex flex-col ml-4 items-center justify-end gap-x-6">
+                                        <button
+                                            type="button"
+                                            onClick={(e) => handleRemove(e,index)}
+                                            className="text-sm font-semibold leading-6 text-gray-700"
+                                        >
+                                            Remove
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => handleEdit(e,index)}
+                                            className="text-sm mt-2 text-blue-700 font-semibold leading-6 "
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>))}
+
 
 
 
