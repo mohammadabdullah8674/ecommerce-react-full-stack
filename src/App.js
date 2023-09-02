@@ -25,6 +25,11 @@ import { fetchLoggedinUsersAsync } from './features/user/userSlice';
 import UserProfilePage from './pages/UserProfilePage';
 import Logout from './features/auth/components/Logout';
 import ForgotPassword from './features/auth/components/ForgotPassword';
+import ProtectedAdmin from './features/auth/components/ProtectedAdmin';
+import AdminHome from './adminPages/AdminHome';
+import AdminProductDetailPage from './adminPages/AdminProductDetailPage';
+import AdminProductForm from './features/admin/components/AdminProductForm';
+import AdminOrdersPage from './adminPages/AdminOrdersPage';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +38,14 @@ const router = createBrowserRouter([
       <Protected>
         <Home></Home>
       </Protected>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <ProtectedAdmin>
+        <AdminHome></AdminHome>
+      </ProtectedAdmin>
     ),
   },
   {
@@ -79,8 +92,32 @@ const router = createBrowserRouter([
     path: "/product-detail/:id",
     element: (
       <Protected>
-        <ProductDetailPage></ProductDetailPage>
+        <AdminProductDetailPage></AdminProductDetailPage>
       </Protected>
+    ),
+  },
+  {
+    path: "/admin/product-detail/:id",
+    element: (
+      <ProtectedAdmin>
+        <ProductDetailPage></ProductDetailPage>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductForm></AdminProductForm>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form/edit/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductForm></AdminProductForm>
+      </ProtectedAdmin>
     ),
   },
   {
@@ -89,7 +126,14 @@ const router = createBrowserRouter([
       <Protected>
         <UserOrdersPage></UserOrdersPage>
       </Protected>
-      // we will add it later
+    ),
+  },
+  {
+    path: "/admin/orders",
+    element: (
+      <ProtectedAdmin>
+        <AdminOrdersPage></AdminOrdersPage>
+      </ProtectedAdmin>
     ),
   },
   {

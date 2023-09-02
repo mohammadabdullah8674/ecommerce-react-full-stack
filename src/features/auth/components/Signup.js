@@ -34,7 +34,13 @@ export default function Signup() {
                         noValidate
                         onSubmit={handleSubmit((data) => {
                             console.log(data)
-                            dispatch(createUserAsync({email : data.email, password : data.password, address: []}))
+                            dispatch(createUserAsync({
+                                email : data.email, 
+                                password : data.password, 
+                                address: [],
+                                role : "user"
+                                // TODO : This role can be given by backnd directly
+                            }))
                         })} >
                         <div>
                             <label htmlFor="email" className="text-left block text-sm font-medium leading-6 text-gray-900">

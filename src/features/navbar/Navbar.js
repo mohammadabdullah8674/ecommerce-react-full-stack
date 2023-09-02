@@ -8,16 +8,17 @@ import {
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectItems } from '../cart/cartSlice';
+import {selectLoggedInUser} from "../auth/authSlice"
 
-const user = {
+const dummyuser = {
   name: 'Tom Cook',
   email: 'tom@example.com',
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 };
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Team', href: '#', current: false },
+  { name: 'Home', href: '/', current: true,  },
+  { name: 'Team', href: '#', current: false,  },
 ];
 const userNavigation = [
   { name: 'My Profile', href: '/profile' },
@@ -32,6 +33,7 @@ function classNames(...classes) {
 function Navbar({ children }) {
 
   const cartItems = useSelector(selectItems)
+  const user = useSelector(selectLoggedInUser)
 
   return (
     <>
@@ -69,6 +71,8 @@ function Navbar({ children }) {
                             {item.name}
                           </Link>
                         ))}
+                        {user.role=="admin" && <Link to="/admin" className='rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white'>Admin</Link>}
+                        {user.role=="admin" && <Link to="/admin/orders" className='rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white'>Orders</Link>}
                       </div>
                     </div>
                   </div>
@@ -97,7 +101,7 @@ function Navbar({ children }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={dummyuser.imageUrl}
                               alt=""
                             />
                           </Menu.Button>
@@ -176,7 +180,7 @@ function Navbar({ children }) {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
+                        src={dummyuser.imageUrl}
                         alt=""
                       />
                     </div>

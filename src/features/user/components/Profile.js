@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { selectUserInfo, updateUserAsync } from '../userSlice'
 import EditProfile from './EditProfile';
 
@@ -13,7 +13,6 @@ function Profile() {
 
     const user = useSelector(selectUserInfo)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     let name = "New User"
     let phone = 9999999999
     const email = user.email
@@ -21,6 +20,9 @@ function Profile() {
     if (address.length) {
         name = user.address[0].fullName
         phone = user.address[0].phone
+    }
+    if(user.role=="admin"){
+        name = "Admin"
     }
 
     function handleEdit(e,index){
@@ -58,6 +60,7 @@ function Profile() {
                             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{name}</h5>
                             <span className="text-sm text-gray-500 dark:text-gray-400">{phone}</span>
                             <span className="text-sm text-gray-500 dark:text-gray-400">{email}</span>
+                           { user.role=="admin" && <span className="text-sm text-red-500 font-bold dark:text-gray-400">Role : {user.role}</span> }
                             <hr class="h-px w-full my-4 bg-gray-300 border-0 dark:bg-gray-700"></hr>
                             {
                                 address.length > 0 && <h5 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Your saved Addresses</h5>
