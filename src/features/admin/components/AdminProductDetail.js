@@ -51,10 +51,10 @@ export default function AdminProductDetail() {
   const dispatch = useDispatch()
   console.log(product)
 
-  function handleCart(e){
+  function handleCart(e) {
     e.preventDefault()
-    const newItem = {...product, quantity : 1, userId : user.id }
-    delete newItem['id']
+    const newItem = {product:product.id, quantity : 1, user : user.id }
+    
     dispatch(addToCartAsync(newItem))
   }
 
@@ -63,19 +63,13 @@ export default function AdminProductDetail() {
     console.log("Hi I am useEffect from Product Deatils")
   }, [dispatch, param.id])
 
-  if(status == "loading") {
+  if (status == "loading") {
     return <Loader></Loader>
   }
 
-  return (
-    // <div>
-    //   <p>
-    //     Page changes
-    //   </p>
-    //   <h1>{product.title}</h1>
-    // </div>
-
-
+  return (<>
+    
+    { product &&
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -275,7 +269,7 @@ export default function AdminProductDetail() {
               </div>
 
               <button
-              onClick={handleCart}
+                onClick={handleCart}
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
@@ -319,7 +313,8 @@ export default function AdminProductDetail() {
         </div>
       </div>
     </div>
-  )
+}
+ </> )
 }
 
 

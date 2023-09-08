@@ -14,7 +14,7 @@ function EditProfile({ editMode, setEditMode,indexValue, handleIndex,}) {
   useEffect(() => {
     if (indexValue!=null && indexValue >= 0) {
       console.log(indexValue)
-      const info = user.address[indexValue]
+      const info = user.addresses[indexValue]
       setValue('fullName', info.fullName)
       setValue('email', info.email)
       setValue('phone', info.phone)
@@ -33,13 +33,13 @@ function EditProfile({ editMode, setEditMode,indexValue, handleIndex,}) {
             onSubmit={handleSubmit(data => {
               if (indexValue!=null && indexValue >= 0) {
                 console.log(indexValue)
-                const newUser = { ...user, address: [...user.address] }
-                newUser.address[indexValue] = data
+                const newUser = { id : user.id, addresses: [...user.addresses] }
+                newUser.addresses[indexValue] = data
                 dispatch(updateUserAsync(newUser))
                 handleIndex(null)
                 console.log(indexValue,  "Hiiiiiii")
               } else {
-                dispatch(updateUserAsync({ ...user, address: [...user.address, data] }))
+                dispatch(updateUserAsync({ ...user, addresses: [...user.addresses, data] }))
               }
               reset()
               setEditMode(false)

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { fetchLoggedinUserOrdersAsync, selectUserInfo, selectUserOrders } from '../userSlice'
 
 function Orders() {
@@ -25,12 +26,12 @@ function Orders() {
                 </h3>
                 <div className="flow-root">
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {order.cartItems.map((item) => (
-                      <li key={item.id} className="flex py-6">
+                    {order.items.map((item, index) => (
+                      <li key={item.index} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
-                            src={item.thumbnail}
-                            alt={item.title}
+                            src={item.product.thumbnail}
+                            alt={item.product.title}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -38,12 +39,12 @@ function Orders() {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={item.href}>{item.title}</a>
+                                <Link to={`/product-detail/${item.product.id}`}>{item.product.title}</Link>
                               </h3>
-                              <p className="ml-4">${item.price}</p>
+                              <p className="ml-4">${item.product.price}</p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
-                              {item.brand}
+                              {item.product.brand}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
@@ -52,7 +53,7 @@ function Orders() {
                                 htmlFor="quantity"
                                 className="inline mr-5 text-sm font-medium leading-6 text-gray-900"
                               >
-                                Qty :{item.quantity}
+                                Qty : {item.quantity}
                               </label>
                             </div>
                             <div className="flex"></div>
@@ -79,7 +80,7 @@ function Orders() {
                   <div className="flex gap-x-4">
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
-                        {order.selectedAddress.name}
+                        {order.selectedAddress.fullName}
                       </p>
                       <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                         {order.selectedAddress.street}

@@ -1,6 +1,6 @@
 export function addToCart(item) {
   return new Promise(async (resolve) =>{
-    const response = await fetch("http://localhost:8080/cart", {
+    const response = await fetch("http://localhost:8080/api/cart", {
       method  : "POST",
       body : JSON.stringify(item),
       headers : {"content-type" : "application/json"}
@@ -15,7 +15,8 @@ export function addToCart(item) {
 export function fetchItemsByUserId(userId) {
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/cart?userId='+userId)
+    
+    const response = await fetch('http://localhost:8080/api/cart?user='+userId)
     const data = await response.json()
     resolve({ data })
   }
@@ -25,7 +26,7 @@ export function fetchItemsByUserId(userId) {
 
 export function updateCart(item) {
   return new Promise(async (resolve) =>{
-    const response = await fetch("http://localhost:8080/cart/" + item.id, {
+    const response = await fetch("http://localhost:8080/api/cart/" + item.id, {
       method  : "PATCH",
       body : JSON.stringify(item),
       headers : {"content-type" : "application/json"}
@@ -38,7 +39,7 @@ export function updateCart(item) {
 
 export function deleteItemFromCart(itemId) {
   return new Promise(async (resolve) =>{
-    const response = await fetch("http://localhost:8080/cart/" + itemId, {
+    const response = await fetch("http://localhost:8080/api/cart/" + itemId, {
       method  : "DELETE",
       headers : {"content-type" : "application/json"}
     })

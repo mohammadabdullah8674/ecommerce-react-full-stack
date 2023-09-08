@@ -18,7 +18,7 @@ const dummyuser = {
 };
 const navigation = [
   { name: 'Home', href: '/', current: true,  },
-  { name: 'Team', href: '#', current: false,  },
+  { name: 'Team', href: '/team', current: false,  },
 ];
 const userNavigation = [
   { name: 'My Profile', href: '/profile' },

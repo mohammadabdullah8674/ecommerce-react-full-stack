@@ -64,7 +64,7 @@ function AdminOrders() {
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEM_PER_PAGE };
     dispatch(fetchAllOrdersAsync({ sort, pagination }));
-  }, [dispatch, page, sort]);
+  }, [dispatch, page, sort,]);
 
   return (
     <div className="overflow-x-auto">
@@ -124,17 +124,17 @@ function AdminOrders() {
                       </div>
                     </td>
                     <td className="py-3 px-6 text-left">
-                      {order.cartItems.map((item) => (
+                      {order.items.map((item) => (
                         <div className="flex items-center">
                           <div className="mr-2">
                             <img
                               className="w-6 h-6 rounded-full"
-                              src={item.thumbnail}
+                              src={item.product.thumbnail}
                             />
                           </div>
                           <span>
-                            {item.title} - #{item.quantity} - $
-                            {discountedPrice(item)}
+                            {item.product.title} - #{item.quantity} - $
+                            {discountedPrice(item.product)}
                           </span>
                         </div>
                       ))}

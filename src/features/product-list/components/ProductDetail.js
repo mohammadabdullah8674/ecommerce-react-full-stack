@@ -53,8 +53,8 @@ export default function ProductDetail() {
 
   function handleCart(e){
     e.preventDefault()
-    const newItem = {...product, quantity : 1, userId : user.id }
-    delete newItem['id']
+    const newItem = {product:product.id, quantity : 1, user : user.id }
+    console.log(newItem)
     dispatch(addToCartAsync(newItem))
   }
 
@@ -67,14 +67,9 @@ export default function ProductDetail() {
     return <Loader></Loader>
   }
 
-  return (
-    // <div>
-    //   <p>
-    //     Page changes
-    //   </p>
-    //   <h1>{product.title}</h1>
-    // </div>
-
+  return (<>
+   
+    {product && 
 
     <div className="bg-white">
       <div className="pt-6">
@@ -319,7 +314,8 @@ export default function ProductDetail() {
         </div>
       </div>
     </div>
-  )
+}
+ </> )
 }
 
 

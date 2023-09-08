@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  fetchAllProductsAsync,
   fetchCategoriesAsync,
   fetchBrandsAsync,
   fetchProductsByFiltersAsync,
@@ -9,8 +8,6 @@ import {
   selectTotalBrands,
   selectTotalCategories,
   selectTotalItems,
-  selectProductById,
-  fetchProductByIdAsync
 } from '../../product-list/productSlice';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -47,7 +44,6 @@ export default function AdminProductList() {
   const totalItems = useSelector(selectTotalItems);
   const categories = useSelector(selectTotalCategories);
   const brands = useSelector(selectTotalBrands);
-  // const productId1 = useSelector(selectProductById)
 
   const filters = [
     {
@@ -98,8 +94,6 @@ export default function AdminProductList() {
   useEffect(()=> {
     dispatch(fetchCategoriesAsync())
     dispatch(fetchBrandsAsync())
-    dispatch(fetchProductByIdAsync(1))
-
   },[])
 
   useEffect(() => {
@@ -471,6 +465,7 @@ function ProductGrid({ products }) {
                       </div>
                     </div>
                     {product.deleted &&   <p className='text-sm text-red-500 mt-1 text-left'>Product Deleted</p> }
+                    {product.stock==0 &&   <p className='text-sm text-red-500 mt-1 text-left'>Out of Stock</p> }
                    
                   </div>
                 </Link>

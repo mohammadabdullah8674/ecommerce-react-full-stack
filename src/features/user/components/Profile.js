@@ -13,13 +13,13 @@ function Profile() {
 
     const user = useSelector(selectUserInfo)
     const dispatch = useDispatch()
-    let name = "New User"
+    let name = user.name
     let phone = 9999999999
     const email = user.email
-    const address = user.address
+    const address = user.addresses
     if (address.length) {
-        name = user.address[0].fullName
-        phone = user.address[0].phone
+        name = user.addresses[0].fullName
+        phone = user.addresses[0].phone
     }
     if(user.role=="admin"){
         name = "Admin"
@@ -31,8 +31,8 @@ function Profile() {
     }
 
     function handleRemove(e,index){
-        const newUser = { ...user, address: [...user.address] }
-        newUser.address.splice(index, 1)
+        const newUser = { ...user, addresses: [...user.addresses] }
+        newUser.addresses.splice(index, 1)
         dispatch(updateUserAsync(newUser))
     }
     function handleIndex(index){

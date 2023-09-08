@@ -3,7 +3,7 @@
 export function fetchLoggedinUser(userId) {
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/users/'+ userId)
+    const response = await fetch('http://localhost:8080/api/users/'+ userId)
     const data = await response.json()
     resolve({ data })
   }
@@ -14,7 +14,7 @@ export function fetchLoggedinUser(userId) {
 
 export function updateUser(update) {
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8080/users/'+update.id, {
+    const response = await fetch('http://localhost:8080/api/users/'+update.id, {
       method: 'PATCH',
       body: JSON.stringify(update),
       headers: { 'content-type': 'application/json' },
@@ -29,7 +29,7 @@ export function updateUser(update) {
 export function fetchLoggedinUserOrders(userId) {
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/order/?userId='+userId)
+    const response = await fetch('http://localhost:8080/api/orders/user?user='+userId)
     const data = await response.json()
     resolve({ data })
   }

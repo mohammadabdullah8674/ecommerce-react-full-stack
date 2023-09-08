@@ -69,7 +69,6 @@ function AdminProductForm() {
           product.image3,
           product.thumbnail,
         ];
-        product.rating = 0;
         delete product['image1'];
         delete product['image2'];
         delete product['image3'];

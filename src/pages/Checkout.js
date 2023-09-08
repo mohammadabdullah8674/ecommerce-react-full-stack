@@ -63,7 +63,7 @@ function Checkout() {
   const user = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder)
   const dispatch = useDispatch()
-  const totalAmount = cartItems.reduce((amount, item) => item.price * item.quantity + amount, 0)
+  const totalAmount = cartItems.reduce((amount, item) => item.product.price * item.quantity + amount, 0)
   const totalItems = cartItems.reduce((total, item) => item.quantity + total, 0)
   const [open, setOpen] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -77,7 +77,7 @@ function Checkout() {
   }
 
   const handleAddress = (e) => {
-    setSelectedAddress(user.address[e.target.value])
+    setSelectedAddress(user.addresses[e.target.value])
   }
   const handlePayment = (e) => {
     setPaymentMethod(e.target.value)
@@ -86,8 +86,8 @@ function Checkout() {
   function handleOrder(){
     if (selectedAddress && paymentMethod) {
       const order = {
-        userId : user.id,
-        cartItems,
+        user : user.id,
+        items : cartItems,
         totalAmount,
         totalItems,
         paymentMethod,
@@ -118,7 +118,7 @@ function Checkout() {
           <div className="lg:col-span-3">
             <form
               onSubmit={handleSubmit(data => {
-                dispatch(updateUserAsync({ ...user, address: [...user.address, data] }))
+                dispatch(updateUserAsync({ id:user.id, addresses : [...user.addresses, data] }))
                 reset()
                 console.log(user)
               })}
@@ -334,7 +334,7 @@ function Checkout() {
                     Choose from Existing addresses
                   </p>
                   <ul role="list">
-                    {user.address.map((address, index) => (
+                    {user.addresses.map((address, index) => (
                       <li
                         key={index}
                         className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
@@ -431,12 +431,12 @@ function Checkout() {
                 </h1>
                 <div className="flow-root">
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {cartItems.map((product) => (
-                      <li key={product.id} className="flex py-6">
+                    {cartItems.map((item) => (
+                      <li key={item.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
-                            src={product.thumbnail}
-                            alt={product.title}
+                            src={item.product.thumbnail}
+                            alt={item.product.title}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -445,12 +445,12 @@ function Checkout() {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <Link to={`/product-detail/${product.id}`}>{product.title}</Link>
+                                <Link to={`/product-detail/${item.product.id}`}>{item.product.title}</Link>
                               </h3>
-                              <p className="ml-4">{product.price}</p>
+                              <p className="ml-4">{item.product.price}</p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
-                              {product.brand}
+                              {item.product.brand}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
@@ -461,7 +461,7 @@ function Checkout() {
                               >
                                 Qty
                               </label>
-                              <select onChange={(e) => handleQuantity(e, product)} value={product.quantity}>
+                              <select onChange={(e) => handleQuantity(e, item)} value={item.quantity}>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -472,7 +472,7 @@ function Checkout() {
 
                             <div className="flex">
                               <button
-                                onClick={(e) => handleRemove(e, product)}
+                                onClick={(e) => handleRemove(e, item)}
                                 type="button"
                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                               >
